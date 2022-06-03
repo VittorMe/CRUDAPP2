@@ -14,7 +14,7 @@ namespace CRUDAPP2.Repository
         static MySqlDataAdapter _adp;
         static MySqlConnection _con = null;
         static DataTable _table = null;
-        static string _conStr = "Server=localhost;Port=3306;Database=testdev;Uid=root;Pwd=zsxd2356";
+        static string _conStr = "Server=localhost;Port=3306;Database=testdev;Uid=root;Pwd=xxxxxx";
         public static MySqlDataAdapter getInformation(string query, ref string lsmg)
         {
             try
