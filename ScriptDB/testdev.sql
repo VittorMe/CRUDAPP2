@@ -1,13 +1,15 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `testdev` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `testdev`;
+-- MySQL dump 10.13  Distrib 5.7.28, for Win64 (x86_64)
 --
 -- Host: localhost    Database: testdev
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -18,19 +20,53 @@
 --
 -- Table structure for table `produto`
 --
+DROP TABLE IF EXISTS `grpEMP`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+
+CREATE TABLE `grpEMP`(
+`cod` bigint(20) NOT NULL AUTO_INCREMENT,
+`RazaoSocial` varchar(100) NOT NULL,
+`NomeFantasia` varchar(100) NOT NULL,
+`EmpresaDocumento` varchar(100) NOT NULL,
+`InscricaoEstadual` varchar(100) NOT NULL,
+`Cep` varchar(100) NOT NULL,
+ `ativo` tinyint(1) NOT NULL DEFAULT '1',
+PRIMARY KEY (`cod`)
+)ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+DROP TABLE IF EXISTS `User`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+
+create table IF not  EXISTS `User`(
+`cod` bigint(20) NOT NULL AUTO_INCREMENT,
+`codGRPEMP` bigint(20) NOT NULL,
+`LoginName` varchar(100) NOT NULL,
+`Password` varchar(100) NOT NULL,
+`FirstName`varchar(100) NOT NULL,
+`LastName` varchar(100) NOT NULL,
+`email` varchar(100) NOT NULL,
+PRIMARY KEY (`cod`),
+KEY `fk_produtoCodGrupoEMP_idx` (`codGRPEMP`),
+CONSTRAINT `fk_produtoCodGrupoEMP` FOREIGN KEY (`codGRPEMP`) REFERENCES `grpemp` (`cod`) ON DELETE RESTRICT ON UPDATE CASCADE
+)ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */; 
 
 DROP TABLE IF EXISTS `produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `produto` (
-  `cod` bigint NOT NULL AUTO_INCREMENT,
+  `cod` bigint(20) NOT NULL AUTO_INCREMENT,
   `descricao` varchar(100) NOT NULL,
-  `codGrupo` int NOT NULL,
+  `codGrupo` int(11) NOT NULL,
   `codBarra` varchar(100) DEFAULT NULL,
   `precoCusto` decimal(11,3) NOT NULL,
   `precoVenda` decimal(11,3) NOT NULL,
   `dataHoraCadastro` datetime NOT NULL,
-  `ativo` tinyint(1) NOT NULL DEFAULT '1',
+   `ativo` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`cod`),
   KEY `fk_produtoCodGrupo_idx` (`codGrupo`),
   CONSTRAINT `fk_produtoCodGrupo` FOREIGN KEY (`codGrupo`) REFERENCES `produto_grupo` (`cod`) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -53,9 +89,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `produto_grupo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `produto_grupo` (
-  `cod` int NOT NULL AUTO_INCREMENT,
+  `cod` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
   PRIMARY KEY (`cod`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -77,9 +113,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `venda`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `venda` (
-  `cod` bigint NOT NULL AUTO_INCREMENT,
+  `cod` bigint(20) NOT NULL AUTO_INCREMENT,
   `clienteDocumento` varchar(18) DEFAULT NULL,
   `clienteNome` varchar(50) DEFAULT NULL,
   `obs` varchar(300) DEFAULT NULL,
@@ -105,11 +141,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `venda_produto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `venda_produto` (
-  `cod` bigint NOT NULL AUTO_INCREMENT,
-  `codVenda` bigint NOT NULL,
-  `codProduto` bigint NOT NULL,
+  `cod` bigint(20) NOT NULL AUTO_INCREMENT,
+  `codVenda` bigint(20) NOT NULL,
+  `codProduto` bigint(20) NOT NULL,
   `precoVenda` decimal(11,3) NOT NULL,
   `quantidade` decimal(11,2) NOT NULL,
   PRIMARY KEY (`cod`),
@@ -147,4 +183,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-06-03 18:32:29
+-- Dump completed on 2020-07-01 18:52:04
